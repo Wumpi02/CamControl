@@ -1,0 +1,123 @@
+{
+  "Cameras": [
+    {
+      "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+      "SortOrder": 0,
+      "Name": "Testkamera",
+      "Description": "",
+      "Obs_Szene": 0,
+      "Obs_SzeneText": "",
+      "InsDate": "2023-08-01T02:00:00+02:00",
+      "UpdDate": "2023-11-24T00:00:00+01:00",
+      "HasPTZ": true,
+      "HasZoom": true,
+      "IpAdress": "192.168.4.164",
+      "PortConfig": 0,
+      "PortFirstStream": 554,
+      "ProtokollFirstStream": "rtsp",
+      "PathFirstStream": "/Streaming/channels/101",
+      "PortSecondStream": 554,
+      "PortOnVif": 80,
+      "ProtokollSecondStream": "rtsp",
+      "PathSecondStream": "/Streaming/channels/102",
+      "UserName": "admin",
+      "Password": "www.4712",
+      "ShowPreviewAsMJpeg": true,
+      "Presets": [
+        {
+          "Name": "Test2",
+          "Description": "Hallo",
+          "Preset_Number": 2,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "ae1e9d85-d193-414e-8eac-725357ee7324",
+          "Token": ""
+        },
+        {
+          "Name": "Test3",
+          "Description": "Huhu",
+          "Preset_Number": 3,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "49334bfc-d691-4d90-a119-95f210cddf6b",
+          "Token": ""
+        },
+        {
+          "Name": "Test1",
+          "Description": "Tuta",
+          "Preset_Number": 1,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "1a4a4889-eef5-44de-bc02-a0f89b3de745",
+          "Token": ""
+        },
+        {
+          "Name": "test4",
+          "Description": "sddsds",
+          "Preset_Number": 4,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "fd39f700-b713-4502-8f76-f77c1d345ae0",
+          "Token": ""
+        },
+        {
+          "Name": "test5",
+          "Description": "dsfds",
+          "Preset_Number": 5,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "c0e4319c-2be5-4540-be70-79ca1a72a3f7",
+          "Token": ""
+        },
+        {
+          "Name": "test6",
+          "Description": "sdfdsfd",
+          "Preset_Number": 6,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "17665f6e-e2f9-4ba0-9177-725ce11f9e28",
+          "Token": ""
+        },
+        {
+          "Name": "",
+          "Description": "",
+          "Preset_Number": 9,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "caf4ba7b-62e1-4b32-9a2c-88aa2debf182",
+          "Token": ""
+        },
+        {
+          "Name": "",
+          "Description": "",
+          "Preset_Number": 10,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "cbbe7195-6eaf-4894-b9e9-3293f4801b7c",
+          "Token": ""
+        },
+        {
+          "Name": "",
+          "Description": "",
+          "Preset_Number": 11,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "d45d97b9-4a90-44aa-8bcc-74ceb6f05ac3",
+          "Token": ""
+        },
+        {
+          "Name": "Hallo",
+          "Description": "",
+          "Preset_Number": 7,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "e8677159-e3ee-4b58-a4c2-8e9bc51d23c4",
+          "Token": ""
+        },
+        {
+          "Name": "Test8",
+          "Description": "",
+          "Preset_Number": 8,
+          "Camera_Guid": "5caf888f-8f6d-4aed-9c82-23f4ca5d7fd0",
+          "Preset_Guid": "9d24a77f-4e0b-4047-8804-b204e021e5a5",
+          "Token": ""
+        }
+      ],
+      "RedirectionSpeed": 1.0,
+      "ZoomSpeed": 1.0,
+      "PresetSpeed": 1.0,
+      "RTSPFirstURL": "rtsp://admin:www.4712@192.168.4.164:554/",
+      "RTSPSecondURL": "rtsp://admin:www.4712@192.168.4.164:554/"
+    }
+  ]
+}

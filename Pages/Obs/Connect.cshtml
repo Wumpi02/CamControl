@@ -1,0 +1,153 @@
+﻿@page
+@using CamControl.Services;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@model CamControl.Pages.Obs.ConnectModel
+@inject IStringLocalizer<ConnectModel> Localizer
+@inject IHtmlLocalizer<ConnectModel> htmlLocalizer
+@inject IObsService ObsService
+
+
+@{
+    ViewData["Title"] = @Localizer["OB Verbinden"];
+    string styleIsConnecting;
+    string styleIsConnected;
+    string styleIsNotConnected;
+    if (@ObsService.IsConnecting)
+        styleIsConnecting = "";
+    else
+        styleIsConnecting = "display:none";
+
+    if (ObsService.IsConnected)
+    {
+        styleIsConnected = "";
+        styleIsNotConnected = "display:none";
+    }
+    else
+    {
+        styleIsConnected = "display:none";
+        styleIsNotConnected = "";
+    }
+
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h4 class="mb title">
+                        Verbinden zu OBS
+                    </h4>
+                    <form class="form-horizontal style-form" method="post">
+                        <input type="hidden" asp-for="Settings.Timestamp" />
+                       
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Settings.OBS_Server_IP" class="control-label"></label>
+                            <input asp-for="Settings.OBS_Server_IP" class="form-control" />
+                            <span asp-validation-for="Settings.OBS_Server_IP" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Settings.OBS_Port" class="control-label"></label>
+                            <input asp-for="Settings.OBS_Port" class="form-control" />
+                            <span asp-validation-for="Settings.OBS_Port" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Settings.OBS_PASSWORD" class="control-label"></label>
+                            <input asp-for="Settings.OBS_PASSWORD" class="form-control" />
+                            <span asp-validation-for="Settings.OBS_PASSWORD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+
+                            <div id="connectionErrorContainer" style="@styleIsNotConnected" class="form-group alert alert-danger" role="alert">
+                                <div class="container">
+                                    <p style="font-size:larger" class="align-middle">Verbindung unterbrochen</p>
+                                    <p id="connectionError" class="align-middle"></p>
+                                </div>
+                            </div>
+
+                            <div id="connectedIndicator" style="@styleIsConnected" class="alert alert-success" role="alert">
+                                <div class="container">
+                                    <div class="row">
+
+                                        <div class="col-md-auto">
+                                            <i class="fa fa-circle-check fa-beat align-middle" style="--fa-beat-scale: 2.0; color:green"></i>
+                                        </div>
+                                        <div class="col">
+                                            <p style="color:green;font-size:larger" class="align-middle">Verbindung aktiv</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="connectingIndicator" style="@styleIsConnecting" class="alert alert-primary" role="alert">
+                                <div class="d-flex align-items-center">
+                                    <div class="spinner-border m-5 text-secondary" role="status" aria-hidden="true"></div>
+                                    <strong>@Localizer["Versuche zu verbinden"]</strong>
+                                    <div class="spinner-border m-5 text-secondary" role="status" aria-hidden="true"></div>
+                                </div>
+                                @*<div class="container">
+                                <div class="row">
+                                <div class="col-md-auto">
+                                <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                                </div>
+                                <div class="col">
+                                <p style="font-size:larger" class="align-middle">@Localizer["Versuche zu verbinden"]</p>
+                                </div>
+                                </div>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+
+                            <input type="submit" asp-page-handler="Connect" id="connectButton" value=@Localizer["verbinden"] class="btn btn-primary" />
+
+                            <input type="submit" class="btn btn-primary" style="display:none" asp-page-handler="DisConnect" id="disconnectButton" value=@Localizer["trennen"] />
+
+
+                        </div>
+                        <div class="form-group">
+                            <a asp-area="" onclick="history.go(-1);">@Localizer["zurück"]</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+<script>
+    function handleLocalNotifyPropertyChangedEvent(event) {
+        const eventData = event.detail;
+        if (eventData.property == "@ModulNames.OBS.ToString()" + ".IsConnected") {
+            if (eventData.value.toString() == "true") {
+                $('#connectedIndicator').show();
+                $('#disconnectButton').show();
+                $('#connectButton').hide();
+                $('#connectionErrorContainer').hide();
+                $('#connectionError').text('');
+                $('#connectingIndicator').hide();
+            } else {
+                $('#connectButton').show();
+                $('#disconnectButton').hide();
+                $('#connectedIndicator').hide();
+                $('#connectionErrorContainer').show();
+                $('#connectionError').text('@ObsService.DisconnectError');
+
+            }
+        }
+        if (eventData.property == "@ModulNames.OBS.ToString()" + ".IsConnecting") {
+            if (eventData.value.toString() == "true") {      
+                $('#connectingIndicator').show();
+            }
+            else {
+                $('#connectingIndicator').hide();
+            }
+        }
+    }
+    document.addEventListener("notifyPropertyChanged", handleLocalNotifyPropertyChangedEvent);
+
+</script>
+
+

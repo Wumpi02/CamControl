@@ -1,0 +1,95 @@
+﻿@using CamControl.Services;
+@inject IObsService ObsService
+@inject ISettingsService SettingsService
+<header class="header black-bg">
+    <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title=@Localizer["Navigation schließen"]>
+        </div>
+    </div>
+    <a href="/" class="logo">
+        <i class="fa fa-cloud">
+        </i>
+        <b>
+            @Localizer["CamControl"]
+        </b>
+    </a>
+
+
+    <div class="nav notify-row" id="top_menu">
+        <ul class="nav top-menu">
+            @*            <li class="dropdown">
+            <a data-bs-toggle='dropdown'  href="/" title="You have 2 alerts">
+            <i class="fa fa-bell">
+            </i>
+            <span class="badge bg-theme">
+            2
+            </span>
+            </a>
+            <ul class="dropdown-menu extended tasks-bar">
+            <div class="notify-arrow notify-arrow-green">
+            </div>
+            <li>
+            <p class="green">
+            You have 2 alerts
+            </p>
+            </li>
+            <li>
+            <span class="fa-stack fa-lg alert-icon">
+            <i class="fa fa-circle fa-stack-2x">
+            </i>
+            <i class="fa fa-lock fa-stack-1x fa-inverse">
+            </i>
+            </span>
+            <span class="subject">
+            <span class="from">
+            <strong>
+            Server Locked
+            </strong>
+            <span class="time">
+            - Just now
+            </span>
+            </span>
+            </span>
+            </li>
+            <li>
+            <span class="fa-stack fa-lg">
+            <i class="fa fa-circle fa-stack-2x">
+            </i>
+            <i class="fa fa-gears fa-stack-1x fa-inverse">
+            </i>
+            </span>
+            <span class="subject">
+            <span class="from">
+            <strong>
+            Settings Restored
+            </strong>
+            <span class="time">
+            - 2 hrs
+            </span>
+            </span>
+            </span>
+            </li>
+            <li class="external">
+            <a href="/">
+            View All
+            </a>
+            </li>
+            </ul>
+            </li>
+            *@
+        </ul>
+    </div>
+
+    <div class="top-menu">
+        <ul class="nav fa-pull-right  top-menu">
+            @if (SettingsService.Settings.ObsEnabled)
+            {
+            <div id="statusPartialContainer">
+                @await Html.PartialAsync("_StatusPartial",ObsService.IsConnected)
+           </div>
+            }
+                @await Html.PartialAsync("_LoginPartial")
+            
+        </ul>
+    </div>
+</header>

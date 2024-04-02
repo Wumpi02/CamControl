@@ -1,0 +1,24 @@
+﻿@using CamControl.Services;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@model Guid
+@inject IStringLocalizer<IndexModel> Localizer
+@inject ICameraService cameraService;
+@{
+    PresetWrapper preset = cameraService.GetPresetWrapperByGuid(Model);
+    ViewData["Title"] = @Localizer["Preset"];
+}
+<div class="card  text-center">
+    <div class="card-header">
+         @if(preset.IsSelected){
+            <a href="javascript:gotoPreset('@Model')" class="w-100 stretched-link"><h5>(@preset.Preset.Preset_Number) @preset.Name</h5></a>
+    } else {
+            <a href="javascript:gotoPreset('@Model')" class="w-100 stretched-link border-success"><h5>(@preset.Preset.Preset_Number) @preset.Name</h5></a>
+    }
+    </div>
+   
+    <img src="@Href(preset.IMG_Path)" class="card-img-bottom" alt="...">
+    <p class="card-text">
+        <small class="text-muted">@preset.Description</small></p>
+        
+</div>

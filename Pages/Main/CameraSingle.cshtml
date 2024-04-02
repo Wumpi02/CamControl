@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@model CameraWrapper
+@inject IStringLocalizer<IndexModel> Localizer
+@{
+    ViewData["Title"] = @Localizer["Kamera"];
+    int i = 0;
+}
+<li class="media">
+    <div class="media-body">
+        <h5 class="mt-0 mb-1">@Model.Camera.Name</h5>
+
+        <div class="row">
+          
+            <div class="col-1">
+               
+                <a id="switchTo_@Model.Camera_Guid" href="javascript:switchCamera('@Model.Camera_Guid')" class="list-group-item list-group-item-action d-inline-block"><i class="fa fa-3x fa-circle-play"></i></a>
+            </div>
+            <div class="col">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <button class="nav-link active" id="ansichten_@Model.Camera_Guid-tab" data-bs-toggle="tab" data-bs-target="#ansichten_@Model.Camera_Guid" type="button" role="tab" aria-controls="ansichten_@Model.Camera_Guid" aria-selected="true">
+                            @Localizer["Ansichten"]
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="steuerung_@Model.Camera_Guid-tab" data-bs-toggle="tab" data-bs-target="#steuerung_@Model.Camera_Guid" type="button" role="tab" aria-controls="steuerung_@Model.Camera_Guid" aria-selected="false">
+                            @Localizer["Steuerung"]
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" id="parameter_@Model.Camera_Guid-tab" data-bs-toggle="tab" data-bs-target="#parameter_@Model.Camera_Guid" type="button" role="tab" aria-controls="parameter_@Model.Camera_Guid" aria-selected="false">
+                            @Localizer["Parameter"]
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="ansichten_@Model.Camera_Guid" role="tabpanel" aria-labelledby="ansichten_@Model.Camera_Guid-tab">
+                         <div class="container-fluid">
+                    @if (Model.Camera.Presets.Count > 0)
+                    {
+                        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5">
+                            @foreach (var preset in Model.Camera.Presets.OrderBy(a => a.Preset_Number))
+                            {
+                                <div class="col" id="presetContainer_@preset.Preset_Guid">
+                                    @await Html.PartialAsync("./CameraPreset",preset.Preset_Guid)
+                                </div>
+                            }
+                        </div>
+                    }
+
+                </div>
+                    </div>
+                    <div class="tab-pane fade" id="steuerung_@Model.Camera_Guid" role="tabpanel" aria-labelledby="steuerung_@Model.Camera_Guid-tab">
+                        @await Html.PartialAsync("./CameraControl",Model)
+                    </div>
+                    <div class="tab-pane fade" id="parameter_@Model.Camera_Guid" role="tabpanel" aria-labelledby="parameter_@Model.Camera_Guid-tab">
+                       
+                    </div>
+                
+
+            </div>
+
+        </div>
+    </div>
+
+
+</li>

@@ -1,0 +1,29 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@model LogoutModel
+@inject IStringLocalizer<LogoutModel> Localizer
+@{
+    ViewData["Title"] = @Localizer["Log Out"];
+}
+
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h4 class="mb title">
+                        @Localizer["Ausloggen"]
+                    </h4>
+                    <div class="alert alert-primary" role="alert">
+                        <div class="col">
+                            <p style="font-size:larger" class="align-middle">@Localizer["Sie haben sich erfolgreich ausgeloggt"]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+

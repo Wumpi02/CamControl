@@ -1,0 +1,88 @@
+﻿@page
+@model CamControl.Pages.Main.IndexModel
+@using CamControl.Services
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<IndexModel> Localizer
+@inject ISettingsService settingsService
+@inject IHtmlLocalizer<IndexModel> htmlLocalizer
+@{
+    ViewData["Title"] = @Localizer["Hauptseite"];
+}
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <h1>@Localizer["Hauptseite"]</h1>
+        <div class="form-panel">
+            <ul class="list-unstyled">
+                @foreach (var cam in Model.CameraService.GetCameraList().OrderBy(a=>a.SortOrder))
+                {
+                    @await Html.PartialAsync("./CameraSingle", new CameraWrapper(cam, settingsService))
+                }
+
+            </ul>
+        </div>
+    </section>
+</section>
+@section PageJavaScript {
+        <script>
+           
+
+                 
+
+        function handleMoveStartEvent(_guid, _direction) {
+            
+            $.ajax({
+                type: "GET",
+                url: "?handler=MoveStart",
+                data: { cameraguid: _guid, direction: _direction },
+                success: function (result) {
+                }
+            });
+        }
+
+            function handleMoveStoppEvent(_guid) {
+           
+            $.ajax({
+                type: "GET",
+                url: "?handler=MoveStopp",
+                data: { cameraguid: _guid},
+                success: function (result) {
+                }
+            });
+        }
+
+        function gotoHome(_guid) {
+           
+            $.ajax({
+                type: "GET",
+                url: "?handler=GotoHome",
+                data: { cameraguid: _guid },
+                success: function (result) {
+                }
+            });
+        }
+
+        function gotoPreset(_guid) {
+            
+            $.ajax({
+                type: "GET",
+                url: "?handler=GotoPreset",
+                data: { presetguid: _guid },
+                success: function (result) {
+                }
+            });
+        }
+
+        function switchCamera(_guid) {
+           
+            $.ajax({
+                type: "GET",
+                url: "?handler=SwitchCamera",
+                data: { cameraguid: _guid },
+                success: function (result) {
+                }
+            });
+        }
+            
+        </script>
+}

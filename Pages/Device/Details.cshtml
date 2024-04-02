@@ -1,0 +1,51 @@
+﻿@page "{deviceguid:deviceguid}"
+@model CamControl.Pages.Device.DetailsModel
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<DetailsModel> Localizer
+@inject IHtmlLocalizer<DetailsModel> htmlLocalizer
+@{
+    ViewData["Title"] = @Localizer["Gerät Eigenschaften"];
+}
+}
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <h1>@Localizer["Gerät Eigenschaften"]</h1>
+
+        <div class="form-panel">
+            <h4 class="mb title">@Localizer["Gerät"]</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Device.DeviceNumber)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Device.DeviceNumber)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Device.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Device.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Device.Description)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Device.Description)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Device.Direction)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Device.Direction)
+                </dd>
+            </dl>
+        </div>
+        <div class="form-group">
+            <a asp-page="./Edit" asp-route-deviceguid="@Model.Device?.Device_Guid">@Localizer["bearbeiten"]</a> |
+            <a asp-page="./Delete" asp-route-deviceguid="@Model.Device?.Device_Guid">@Localizer["löschen"]</a> |
+            <a asp-page="./Index">@Localizer["Zurück zur Liste"]</a>
+        </div>
+    </section>
+</section>

@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>
+        @ViewBag.Title
+    </title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="CamControl" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keyword" content="camera, control, nak, nac" />
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_StyleSheet.cshtml")
+    @RenderSection("PageStyle", false)
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_JavaScriptTop.cshtml")
+</head>
+<body>
+    <section id="container" class="sidebar-closed">
+        @await Html.PartialAsync("~/Pages/Shared/Sections/_Header.cshtml")
+        @await Html.PartialAsync("~/Pages/Shared/Sections/_Sidebar.cshtml")
+        @RenderBody()
+        @await Html.PartialAsync("~/Pages/Shared/Sections/_Footer.cshtml")
+    </section>
+    @await Html.PartialAsync("~/Pages/Shared/Sections/_JavaScriptBottom.cshtml")
+    @RenderSection("PageJavaScript", false)
+    @section scripts{
+        <partial name="_ValidationScriptsPartial" />
+    }
+  
+</body>
+</html>

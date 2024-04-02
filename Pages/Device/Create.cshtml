@@ -1,0 +1,60 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@model CamControl.Pages.Device.CreateModel
+@inject IStringLocalizer<CreateModel> Localizer
+@inject IHtmlLocalizer<CreateModel> htmlLocalizer
+@{
+    ViewData["Title"] = @Localizer["Gerät anlegen"];
+}
+}
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h4>@Localizer["Gerät anlegen"]</h4>
+
+                    <form class="form-horizontal style-form" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Device.DeviceNumber" class="control-label "></label>
+                            <input type="number" min="1" max="16" step="1" asp-for="Device.DeviceNumber" />
+                            <span asp-validation-for="Device.DeviceNumber" class="text-danger"></span>
+                            @Html.ValidationMessage("DeviceNumber","", new { @class = "text-danger" });
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Device.Name" class="control-label"></label>
+                            <input asp-for="Device.Name" class="form-control" />
+                            <span asp-validation-for="Device.Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Device.Description" class="control-label"></label>
+                            <input asp-for="Device.Description" class="form-control" />
+                            <span asp-validation-for="Device.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Device.Direction" class="control-label"></label>
+                            <select asp-for="Device.Direction">
+                                <option value="@((int)DeviceDirection.Input)">@Localizer[DeviceDirection.Input.ToString()]</option>
+                                <option value="@((int)DeviceDirection.Output)">@Localizer[DeviceDirection.Output.ToString()]</option>
+                            </select>
+                            <span asp-validation-for="Device.Direction" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" value=@Localizer["anlegen"] class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a asp-page="Index">@Localizer["zurück zur Liste"]</a>
+        </div>
+
+
+    </section>
+</section>

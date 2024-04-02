@@ -1,0 +1,1 @@
+﻿public enum ModulNames { Settings,OBS,Camera}

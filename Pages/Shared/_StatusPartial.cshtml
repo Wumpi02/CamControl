@@ -1,0 +1,29 @@
+﻿@using CamControl.Pages.Home;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@using CamControl.Services;
+@inject IObsService ObsService
+@inject IStringLocalizer<_LoginPartialModel> Localizer
+@model Boolean
+
+@if (Model)
+{
+    <li>
+        <i class="fa fa-link" style="color:green" id="obsStatusIndicator" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Localizer["Verbindung zu OBS ist aktiv"]">
+        </i>
+    </li>
+
+}
+else
+{
+    <li>
+        <form  method="post">
+            <a asp-page="/Obs/Connect" asp-page-handler="Connect" class="btn btn-outline-danger">
+            <i class="fa-solid fa-link fa-beat" id="obsStatusIndicator" style="color:red" data-bs-toggle="tooltip" data-bs-placement="bottom" title="@Localizer["Verbindung zu OBS unterbrochen"] &#10; @ObsService.DisconnectError">
+            </i>
+        </a>
+        </form>
+    </li>
+
+}
+

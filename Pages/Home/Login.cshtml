@@ -1,0 +1,39 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+
+@model LoginModel
+@inject IStringLocalizer<LoginModel> Localizer
+
+@{
+    ViewData["Title"] = @Localizer["Log In"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <form class="form-login" method="post">
+                        <h2 class="form-login-heading">
+                            @Localizer["Login"]
+                        </h2>
+                        <h3>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h3>
+                        <div class="login-wrap">
+                            <input type="text" asp-for="UserName" class="form-control" placeholder="@Localizer["Benutzer"]" />
+                            <br />
+                            <input type="password" asp-for="Password" class="form-control" placeholder="@Localizer["Passwort"]" />
+
+                            <br />
+                            <button class="btn btn-theme btn-block" type="submit">
+                                @Localizer["LOGIN"]
+                            </button>
+                            <hr />
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

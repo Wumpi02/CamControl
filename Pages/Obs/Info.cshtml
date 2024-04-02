@@ -1,0 +1,71 @@
+﻿@page
+@model CamControl.Pages.Obs.InfoModel
+@using CamControl.Services;
+@inject IObsService ObsService
+@{
+    ViewData["Title"] = @Localizer["OBS Info"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <div class="panel-heading">
+                        <h4 class="mb title">
+                            @Localizer["OBS Open Broadcaster Software"]
+                        </h4>
+                    </div>
+                    @if (ObsService.IsConnected)
+                    {
+                        <table class="table culture-table">
+                            <tr>
+                                <td> @Localizer["OBS Version"]</td>
+                                <td>@ObsService.VersionInfo.OBSStudioVersion</td>
+                            </tr>
+                            <tr>
+                                <td> @Localizer["Plugin version"]</td>
+                                <td>@ObsService.VersionInfo.PluginVersion</td>
+                            </tr>
+                            <tr>
+                                <td> @Localizer["Plattform"]</td>
+                                <td>@ObsService.VersionInfo.Platform @ObsService.VersionInfo.PlatformDescription</td>
+                            </tr>
+                            <tr>
+                                <td> @Localizer["Aktuelle Szene"]</td>
+                                <td>@ObsService.CurrentSzene</td>
+                            </tr>
+                            
+                            <tr>
+                                <td> @Localizer["Aktuelle Vorschau Szene"]</td>
+                                <td>@ObsService.CurrentPreviewSzene</td>
+                            </tr>
+                            <tr>
+                                <td> @Localizer["Aktueller Übergang"]</td>
+                                <td>@ObsService.CurrentTransition</td>
+                            </tr>
+                            <tr>
+                                <td> @Localizer["Zeit für Übergang"]</td>
+                                <td>@ObsService.TransitionDuration</td>
+                            </tr>
+                        </table>
+                    }
+                    <div class="panel-body">
+                        <a asp-page="./Connect">@Localizer["Verbinden"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+<script>
+     function handleLocalNotifyPropertyChangedEvent(event) {
+        const eventData = event.detail;
+        if (eventData.property == "@ModulNames.OBS.ToString()" + ".CurrentSzene") {
+            $("CurrentSzeneSelect").val(eventData.value.toString()).change();
+        }
+        if (eventData.property == "@ModulNames.OBS.ToString()" + ".CurrentPreviewSzene") {
+            $("CurrentPreviewSzeneSelect").val(eventData.value.toString()).change();
+        }
+     }
+    document.addEventListener("notifyPropertyChanged", handleLocalNotifyPropertyChangedEvent);
+</script>

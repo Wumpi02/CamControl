@@ -1,0 +1,195 @@
+﻿@page
+@using CamControl.Services;
+@inject IObsService ObsService
+@model CamControl.Pages.Obs.IndexModel
+@{
+    ViewData["Title"] = @Localizer["OBS Open Broadcaster Software"];
+}
+<style>
+
+    .video-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .video-header {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px;
+        margin-left: 2px;
+        margin-top: 2px;
+        padding: 10px;
+        align-items: flex-start;
+    }
+
+    .video-box {
+        flex: 1;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+</style>
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <div class="panel-heading">
+                        <h4 class="mb title">
+                            @Localizer["OBS Open Broadcaster Software"]
+                        </h4>
+                    </div>
+                    @if (ObsService.IsConnected)
+                    {
+                        <table class="table ">
+
+                            <tr>
+                                <td>
+                                    <div class="container-sm">
+                                        <div class="row d-flex align-items-center justify-content-center">
+                                            <div class="col-md-5">
+
+                                                <div class="video-box1">
+                                                    <div class="video-header ">
+                                                        <h3 style="font-size: min(2vw, 24px);align-self:center" class="m-sm-8">@Localizer["Vorschau:"]</h3>
+                                                        <select id="CurrentPreviewSzeneSelect" asp-for="@Model.CurrentPreviewSzene" asp-items=@ObsService.GetSzenes() class="form-select" onchange="currentPreviewSzeneChanged(this)"></select>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <img id="obspreviewstream" class="img-fluid img-thumbnail" src="/obspreviewstream">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 btn-container p-4 d-flex  justify-content-center">
+                                                <button class="btn btn-primary" title="@ObsService.CurrentTransition" onclick="changeView()">@Localizer["Übergang"]</button>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="video-box1">
+                                                    <div class="video-header">
+                                                        <h3 style="font-size: min(2vw, 24px);align-self:center" class="m-sm-2">@Localizer["Programm:"]</h3>
+                                                        <select id="CurrentSzeneSelect" asp-for="@Model.CurrentSzene" asp-items=@ObsService.GetSzenes() class="form-select" onchange="currentSzeneChanged(this)"></select>
+                                                    </div>
+                                                    <img id="obslivestream" class="img-fluid img-thumbnail" src="/obslivestream">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    }
+                    <div class="panel-body">
+                        <a asp-page="./Connect">@Localizer["Verbinden"]</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+@section PageJavaScript{
+    <script>
+        function handleLocalNotifyPropertyChangedEvent(event) {
+            const eventData = event.detail;
+            if (eventData.property == "@ModulNames.OBS.ToString()" + ".CurrentSzene") {
+                $("#CurrentSzeneSelect").val(eventData.value.toString());
+            }
+            if (eventData.property == "@ModulNames.OBS.ToString()" + ".CurrentPreviewSzene") {
+                $("#CurrentPreviewSzeneSelect").val(eventData.value.toString());
+            }
+        }
+        document.addEventListener("notifyPropertyChanged", handleLocalNotifyPropertyChangedEvent);
+
+        function currentSzeneChanged(selectObject) {
+            $.ajax({
+                type: "GET",
+                url: "?handler=SetCurrentSzeneByIndex",
+                data: { szeneIndex: selectObject.value },
+                success: function (result) {
+                }
+            });
+        }
+        function currentPreviewSzeneChanged(selectObject) {
+            $.ajax({
+                type: "GET",
+                url: "?handler=SetCurrentPreviewSzeneByIndex",
+                data: { szeneIndex: selectObject.value },
+                success: function (result) {
+                }
+            });
+        }
+        function changeView() {
+            $.ajax({
+                type: "GET",
+                url: "?handler=ChangeView",
+                success: function (result) {
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            var storedClientIdLive = localStorage.getItem('clientIdLive');
+            var storedClientIdPreview = localStorage.getItem('clientIdPreview');
+            var heartbeatUrlLive = "/obslivestream";
+            var heartbeatUrlPreview = "/obspreviewstream";
+
+            if ((typeof storedClientIdLive === 'undefined') && (storedClientIdLive !== null)) {
+                startHeartbeat(heartbeatUrlLive + '/Heartbeat?clientId=' + storedClientIdLive);
+            } else {
+                fetchClientIdFromServer(heartbeatUrlLive, 'clientIdLive');
+            }
+            if ((typeof storedClientIdPreview === 'undefined') && (storedClientIdPreview !== null)) {
+                startHeartbeat(heartbeatUrlPreview + '/Heartbeat?clientId=' + storedClientIdPreview);
+            } else {
+                fetchClientIdFromServer(heartbeatUrlPreview), 'clientIdPreview';
+            }
+        });
+
+
+
+        function fetchClientIdFromServer(url, key) {
+            $.ajax({
+                url: url + '/GetClientId', // Action that generates and returns clientId
+                type: 'GET',
+                success: function (response) {
+                    var clientId = response;
+                    localStorage.setItem(key, clientId);
+                    startHeartbeat(url + '/Heartbeat?clientId=' + clientId);
+                },
+                error: function () {
+                    // Handle error (if needed)
+                }
+            });
+        }
+
+
+        function startHeartbeat(url) {
+            // Set the interval for sending heartbeats (e.g., every 30 seconds)
+            var heartbeatInterval = 30000; // milliseconds
+
+            // Start sending heartbeats at the specified interval
+            setInterval(function () {
+                sendHeartbeat(url);
+            }, heartbeatInterval);
+        }
+
+        function sendHeartbeat(url) {
+            // Make an AJAX request to the Heartbeat action with clientId in the URL
+            $.ajax({
+                url: url,
+                type: 'POST',
+                success: function () {
+                    // Handle success (if needed)
+                },
+                error: function () {
+                    // Handle error (if needed)
+                }
+            });
+        }
+    </script>
+}

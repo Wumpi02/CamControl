@@ -1,0 +1,35 @@
+﻿@using CamControl.Pages.Home;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+
+@inject IStringLocalizer<_LoginPartialModel> Localizer
+
+@using Microsoft.AspNetCore.Identity
+
+@using System.Security.Claims
+
+@if (User.Identity.IsAuthenticated)
+{
+    <li>
+
+        <a class="logout" href="~/Home/Logout" title="@Localizer["Rolle:"] @User.Claims.Where(a => a.Type == ClaimTypes.Role).First().Value">
+            @Localizer["Ausloggen"]
+        </a>
+
+            <div style="margin-top:5px">
+                @Localizer["Hallo"] @User.Identity.Name
+            </div>
+
+
+    </li>
+
+}
+else
+{
+    <li>
+        <a class="logout" href="../Home/Login">
+            @Localizer["Einloggen"]
+        </a>
+    </li>
+
+}

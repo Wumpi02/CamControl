@@ -1,0 +1,26 @@
+﻿@page "{cameraguid:cameraguid}"
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<ReadCameraCapabilitiesModel> Localizer
+@inject IHtmlLocalizer<ReadCameraCapabilitiesModel> htmlLocalizer
+@model CamControl.Pages.CameraOp.ReadCameraCapabilitiesModel
+@{
+    ViewData["Title"] = @Localizer["Kamera identifizieren"];
+}
+
+<section id="main-content">
+    <section class="wrapper site-min-height">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <h4 class="mb title">@Model.DeviceInformation.Model</h4>
+                    <h4 class="mb title">@Model.DeviceInformation.Manufacturer</h4>
+                
+                </div>
+                <div class="form-group">
+                    <input type="button" value=@Localizer["verbinden"] asp-page-handler="Connect" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

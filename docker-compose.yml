@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  camcontrol:
+    image: ${DOCKER_REGISTRY-}camcontrol
+    build:
+      context: .
+      dockerfile: Dockerfile

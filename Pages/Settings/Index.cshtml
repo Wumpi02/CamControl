@@ -1,0 +1,164 @@
+﻿@page
+@model CamControl.Pages.Settings.IndexModel
+@using CamControl.Services;
+@using Microsoft.AspNetCore.Mvc.Localization;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<IndexModel> Localizer
+@inject IObsService ObsService
+@inject IHtmlLocalizer<IndexModel> htmlLocalizer
+@{
+    ViewData["Title"] = @Localizer["Einstellungen"];
+}
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row mt">
+            <div class="col-lg-12">
+                <div class="form-panel">
+                    <div class="panel-heading">
+                        <h4 class="mb title">
+                            @Localizer["Einstellungen"]
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal style-form" method="post" asp-page-handler="save" novalidate>
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Settings.Timestamp" />
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <button class="nav-link active" id="obs-tab" data-bs-toggle="tab" data-bs-target="#obs" type="button" role="tab" aria-controls="obs" aria-selected="true">
+                                        @Localizer["OBS"]
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="simetrix-tab" data-bs-toggle="tab" data-bs-target="#symetrix" type="button" role="tab" aria-controls="symetrix" aria-selected="false">
+                                        @Localizer["Symetrix"]
+                                    </button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link" id="globalcamera-tab" data-bs-toggle="tab" data-bs-target="#globalcamera" type="button" role="tab" aria-controls="globalcamera" aria-selected="false">
+                                        @Localizer["Globale Kameraeinstellungen"]
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="obs" role="tabpanel" aria-labelledby="obs-tab">
+                                     <div class="row mb-3">
+                                        <label asp-for="Settings.ObsEnabled" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" asp-for="Settings.ObsEnabled" class="form-check-input" />
+                                        </div>
+                                        <span asp-validation-for="Settings.ObsEnabled" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.OBS_Server_IP" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.OBS_Server_IP" class="form-control" placeholder="xxx.xxx.xxx.xxx" />
+                                        </div>
+                                        <span asp-validation-for="Settings.OBS_Server_IP" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.OBS_Port" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.OBS_Port" class="form-control" placeholder="xxxx" />
+                                        </div>
+                                        <span asp-validation-for="Settings.OBS_Port" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.OBS_PASSWORD" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                           <input asp-for="Settings.OBS_PASSWORD" class="form-control"  />
+                                        </div>
+                                        <span asp-validation-for="Settings.OBS_PASSWORD" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.ShowObsLiveStream" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input type="checkbox" asp-for="Settings.ShowObsLiveStream" class="form-check-input" />
+                                        </div>
+                                        <span asp-validation-for="Settings.ShowObsLiveStream" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.ShowObsPreviewStream" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.ShowObsPreviewStream" class="form-check-input" />
+                                        </div>
+                                        <span asp-validation-for="Settings.ShowObsPreviewStream" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.OBS_StreamRefreshRate" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.OBS_StreamRefreshRate" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Settings.OBS_StreamRefreshRate" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <a asp-page="../Obs/Connect" class="btn btn-primary col-sm-2">
+                                            <i class="fa fa-edit">
+                                            </i> @Localizer["Verbindung testen"]
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="symetrix" role="tabpanel" aria-labelledby="symetrix-tab">
+                                    <div class="row mb-3 align-items-center">
+                                        <label asp-for="Settings.SYMETRICS_IP" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.SYMETRICS_IP" class="form-control" placeholder="xxx.xxx.xxx.xxx" />
+                                        </div>
+                                        <span asp-validation-for="Settings.SYMETRICS_IP" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <a asp-page="../Device/Index" class="btn btn-primary col-sm-2">
+                                            <i class="fa fa-edit">
+                                            </i> @Localizer["Geräte"]
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="globalcamera" role="tabpanel" aria-labelledby="globalcamera-tab">
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.MasterUser" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.MasterUser" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Settings.MasterUser" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.MasterPassword" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                            <input asp-for="Settings.MasterPassword" class="form-control"  />
+                                        </div>
+                                        <span asp-validation-for="Settings.MasterPassword" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.MasterRedirectionSpeed" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                            <input asp-for="Settings.MasterRedirectionSpeed" asp-format="{0:0.00}" class="form-control" />
+                                        </div>
+                                        <span asp-validation-for="Settings.MasterRedirectionSpeed" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.MasterZoomSpeed" class="col-sm-2 col-form-label"></label>
+                                        <div class="col-sm-10">
+                                            <input asp-for="Settings.MasterZoomSpeed" asp-format="{0:0.00}" class="form-control"  />
+                                        </div>
+                                        <span asp-validation-for="Settings.MasterZoomSpeed" class="text-danger"></span>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label asp-for="Settings.MasterPresetSpeed" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                            <input asp-for="Settings.MasterPresetSpeed" asp-format="{0:0.00}" class="form-control"  />
+                                            </div>
+                                        <span asp-validation-for="Settings.MasterPresetSpeed" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                            <br />
+                            <input type="submit" class="btn btn-primary" value="@Localizer["Speichern"]" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

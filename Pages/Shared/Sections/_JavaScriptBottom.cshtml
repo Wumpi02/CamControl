@@ -1,0 +1,29 @@
+﻿<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="~/lib/signalr/dist/browser/signalr.js"></script>
+<script type="text/javascript" src="~/lib/bootstrap/js/bootstrap.bundle.js"></script>
+<script class="include" type="text/javascript" src="~/lib/jquery-djcqaccordion-27/jquery.dcjqaccordion.2.7.js"></script>
+<script type="text/javascript" src="~/lib/jquery-scrollTo/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="~/lib/jquery-nicescroll/jquery.nicescroll.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+<script type="text/javascript" src="~/lib/theme-script.js"></script>
+<script type="text/javascript" src="~/js/site.js"></script>
+<script>
+
+    function handleNotifyPropertyChangedEvent(event) {
+        const eventData = event.detail;
+        if (eventData.property == "OBS.IsConnected") {
+            $.ajax({
+                url: '/Index?handler=StatusPartial',
+                type: 'GET',
+                success: function (result) {
+                    $('#statusPartialContainer').html(result);
+                },
+                error: function (error) {
+                    console.error('Error reloading the statusPartialContainer view:', error);
+                }
+            });
+        }
+    }
+    document.addEventListener("notifyPropertyChanged", handleNotifyPropertyChangedEvent);
+</script>
